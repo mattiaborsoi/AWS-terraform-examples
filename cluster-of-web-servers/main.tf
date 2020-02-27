@@ -63,7 +63,7 @@ resource "aws_launch_configuration" "example" {
 
   user_data = <<-EOF
               #!/bin/bash
-              echo "Hello, World" > index.html
+              echo "<h1>Hi</h1><br><a href="https://www.linkedin.com/in/mborsoi/">https://www.linkedin.com/in/mborsoi/</a>" > index.html
               nohup busybox httpd -f -p "${var.server_port}" &
               EOF
 
