@@ -1,2 +1,5 @@
 
 .DS_Store
+.tfstate
+.terraform
+private-setup/
