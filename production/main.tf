@@ -1,3 +1,11 @@
+#
+# Remember to run the below export commands on a new device before using the
+# 'terraform init' command
+# %  export AWS_ACCESS_KEY_ID="accesskeyhere"
+# %  export AWS_SECRET_ACCESS_KEY="secretkeyhere"
+#
+
+
 terraform {
   required_version = ">= 0.12"
         backend "s3" {
