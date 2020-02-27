@@ -33,3 +33,9 @@
   1. [loops-with-count](./loops-with-count): Examples of how to use the `count` parameters to "loop" over resources.        
   1. [loops-with-for-each](./loops-with-for-each): Examples of how to use `for_each` to "loop" over inline blocks.        
   1. [loops-with-for](./loops-with-for): Examples of how to use `for` to "loop" over individual values.        
+
+
+
+   ## Production
+
+[production](./production): Here is the the setup I've used for my demo site at borsoi.co.uk
