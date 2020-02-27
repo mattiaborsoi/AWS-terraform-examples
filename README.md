@@ -39,3 +39,10 @@
    ## Production
 
 [production](./production): Here is the the setup I've used for my demo site at borsoi.co.uk
+
+
+## To do:
+
+- auto-install VPN server and output keys
+- open VPN and SSH ports
+- auto-install HTTPS certificates and apache
