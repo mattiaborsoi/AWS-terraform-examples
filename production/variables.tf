@@ -11,13 +11,13 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 variable "server_port" {
-  description = "The port the server will use for HTTP requests"
+  description = "The port the server will use for HTTPS requests"
   type        = number
   default     = 8080
 }
 
 variable "elb_port" {
-  description = "The port the ELB will use for HTTP requests"
+  description = "The port the ELB will use for HTTPS requests"
   type        = number
-  default     = 80
+  default     = 443
 }
