@@ -46,3 +46,4 @@
 - auto-install VPN server and output keys
 - open VPN and SSH ports
 - auto-install HTTPS certificates and apache
+- point elastic IP to load balancer

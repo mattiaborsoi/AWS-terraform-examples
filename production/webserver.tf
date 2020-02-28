@@ -5,7 +5,9 @@
 # queries AWS to fetch the list for the current account and region.
 # ---------------------------------------------------------------------------------------------------------------------
 
-data "aws_availability_zones" "all" {}
+data "aws_availability_zones" "available" {
+  state = "available"
+}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE THE AUTO SCALING GROUP
@@ -13,7 +15,7 @@ data "aws_availability_zones" "all" {}
 
 resource "aws_autoscaling_group" "webserver" {
   launch_configuration = aws_launch_configuration.webserver.id
-  availability_zones   = data.aws_availability_zones.all.names
+  availability_zones   = data.aws_availability_zones.available.names
 
   min_size = 1
   max_size = 5
@@ -58,7 +60,7 @@ resource "aws_launch_configuration" "webserver" {
 resource "aws_security_group" "instance" {
   name = "terraform-webserver-instance"
 
-  # Inbound HTTPS from anywhere
+  # Inbound HTTP from anywhere
   ingress {
     from_port   = var.server_port
     to_port     = var.server_port
@@ -74,27 +76,27 @@ resource "aws_security_group" "instance" {
 resource "aws_elb" "webserver" {
   name               = "terraform-asg-webserver"
   security_groups    = [aws_security_group.elb.id]
-  availability_zones = data.aws_availability_zones.all.names
-
+  availability_zones = data.aws_availability_zones.available.names
   health_check {
-    target              = "HTTPS:${var.server_port}/"
+    target              = "HTTP:${var.server_port}/"
     interval            = 30
     timeout             = 3
     healthy_threshold   = 2
     unhealthy_threshold = 2
   }
 
-  # This adds a listener for incoming HTTPS requests.
+  # This adds a listener for incoming HTTP requests.
   listener {
     lb_port           = var.elb_port
-    lb_protocol       = "https"
+    lb_protocol       = "http"
     instance_port     = var.server_port
-    instance_protocol = "https"
+    instance_protocol = "http"
   }
+
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# CREATE A SECURITY GROUP THAT CONTROLS WHAT TRAFFIC AN GO IN AND OUT OF THE ELB
+# CREATE A SECURITY GROUP THAT CONTROLS WHAT TRAFFIC CAN GO IN AND OUT OF THE ELB
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_security_group" "elb" {
@@ -108,7 +110,7 @@ resource "aws_security_group" "elb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Inbound HTTPS from anywhere
+  # Inbound HTTP from anywhere
   ingress {
     from_port   = var.elb_port
     to_port     = var.elb_port
@@ -116,3 +118,9 @@ resource "aws_security_group" "elb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ASSOCIATE ELASTIC-IP TO THE LOAD BALANCER
+# ---------------------------------------------------------------------------------------------------------------------
+
+#to do
