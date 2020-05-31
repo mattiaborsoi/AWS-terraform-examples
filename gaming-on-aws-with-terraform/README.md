@@ -23,3 +23,4 @@
 
 - auto-set the public IP of my connection
 - link an external EBS where all Steam games are installed and link it at boot
+- improve readme :S
